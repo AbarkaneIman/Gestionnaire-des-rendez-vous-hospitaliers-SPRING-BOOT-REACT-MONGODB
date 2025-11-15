@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - GRH</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4">Tableau de bord Administrateur</h1>
+
+    <div class="list-group">
+        <a th:href="@{/patients}" class="list-group-item list-group-item-action">Gestion des Patients</a>
+        <a th:href="@{/doctors}" class="list-group-item list-group-item-action">Gestion des Médecins</a>
+        <a th:href="@{/appointments}" class="list-group-item list-group-item-action">Gestion des Rendez-vous</a>
+    </div>
+</div>
+</body>
+</html>
