@@ -13,7 +13,7 @@ export default function LoginPage() {
     if (!email || !patientId) {
       alert("Veuillez remplir tous les champs !");
     } else {
-      navigate("/patient-home"); 
+      navigate("/admin-home"); 
     }
   };
 
