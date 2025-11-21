@@ -20,14 +20,20 @@
 =======
     "react-scripts": "5.0.1",
     "recharts": "^3.4.1",
+<<<<<<< HEAD
 >>>>>>> a7651ddc379bf9fddead2be79efe985bc1cc5578
     "web-vitals": "^2.1.4"
+=======
+    "web-vitals": "^2.1.4",
+    "concurrently": "^8.2.0"
+>>>>>>> 7942b66aca4e1f1deba31aa498d6d80d6635c3c2
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start-all": "concurrently \"mvn -f ../GestionnaireRendezVousHospitaliers/pom.xml spring-boot:run\" \"npm start\""
   },
   "eslintConfig": {
     "extends": [

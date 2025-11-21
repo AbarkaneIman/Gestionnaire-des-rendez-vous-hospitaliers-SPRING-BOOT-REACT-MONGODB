@@ -1,24 +1,37 @@
 import React, { useState } from "react";
-import { 
-  Button, Typography, Box, Paper, TextField 
-} from "@mui/material";
+import { Button, Typography, Box, Paper, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [patientId, setPatientId] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleLogin = () => {
-    if (!email || !patientId) {
-      alert("Veuillez remplir tous les champs !");
-    } else {
-      navigate("/admin-home"); 
+  const handleLogin = async () => {
+    if (!email || !password) {
+      setErrorMsg("Veuillez remplir tous les champs !");
+      return;
     }
-  };
 
-  const goToRegister = () => {
-    navigate("/register"); // Tu créeras cette page plus tard
+    try {
+      const response = await fetch("http://localhost:8081/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        navigate("/admin-home");
+      } else {
+        setErrorMsg(data.message || "Erreur inconnue");
+      }
+
+    } catch (error) {
+      setErrorMsg("Erreur de connexion au serveur : " + error.message);
+    }
   };
 
   return (
@@ -28,8 +41,6 @@ export default function LoginPage() {
         width: "100vw",
         backgroundImage: 'url("/backgd2.jpg")',
         backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -46,20 +57,17 @@ export default function LoginPage() {
           textAlign: "center",
         }}
       >
-        <Typography
-          variant="h4"
-          sx={{
-            fontWeight: "bold",
-            mb: 3,
-            color: "#037e8bff",
-          }}
-        >
+        <Typography variant="h4" sx={{ fontWeight: "bold", mb: 3, color: "#037e8bff" }}>
           BIENVENUE
         </Typography>
 
         <Typography sx={{ mb: 3, color: "#333" }}>
           Veuillez vous identifier pour accéder à votre espace
         </Typography>
+
+        {errorMsg && (
+          <Typography sx={{ color: "red", mb: 2 }}>{errorMsg}</Typography>
+        )}
 
         <Box sx={{ textAlign: "left" }}>
           <TextField
@@ -75,8 +83,8 @@ export default function LoginPage() {
             type="password"
             fullWidth
             sx={{ mb: 3 }}
-            value={patientId}
-            onChange={(e) => setPatientId(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </Box>
 
@@ -90,17 +98,12 @@ export default function LoginPage() {
             background: "linear-gradient(45deg, #0077b6, #00b4d8)",
             color: "white",
             borderRadius: 3,
-            "&:hover": {
-              background: "linear-gradient(45deg, #005f8a, #0092ad)",
-            },
+            "&:hover": { background: "linear-gradient(45deg, #005f8a, #0092ad)" },
           }}
         >
           S'identifier
         </Button>
-
-       
-      </Paper>  
-    
+      </Paper>
     </Box>
   );
 }
